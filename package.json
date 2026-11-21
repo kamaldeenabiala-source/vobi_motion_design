@@ -1,7 +1,7 @@
 {
   "name": "motion_design",
   "version": "1.0.0",
-  "description": "My Remotion video",
+  "description": "VOBI — publicités motion design (Remotion)",
   "repository": {},
   "license": "UNLICENSED",
   "engines": {
@@ -9,7 +9,15 @@
   },
   "private": true,
   "dependencies": {
+    "@remotion/captions": "4.0.545",
     "@remotion/cli": "4.0.545",
+    "@remotion/google-fonts": "4.0.545",
+    "@remotion/media": "4.0.545",
+    "@remotion/media-utils": "4.0.545",
+    "@remotion/noise": "4.0.545",
+    "@remotion/paths": "4.0.545",
+    "@remotion/shapes": "4.0.545",
+    "@remotion/transitions": "4.0.545",
     "@remotion/zod-types": "4.0.545",
     "react": "19.3.1",
     "react-dom": "19.3.1",
@@ -27,6 +35,9 @@
   "scripts": {
     "dev": "remotion studio",
     "build": "remotion bundle",
+    "render": "remotion render VobiAd-Script5 out/VOBI_Script5_50000FCFA_1080x1920_30fps.mp4 --codec=h264 --crf=18 --audio-codec=aac --audio-bitrate=192k",
+    "audio:vo": "powershell -ExecutionPolicy Bypass -File scripts/generate-temp-voiceover.ps1 && node scripts/measure-vo.cjs",
+    "audio:gen": "node scripts/generate-audio.cjs",
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc"
   },
