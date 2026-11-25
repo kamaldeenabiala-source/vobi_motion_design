@@ -5,7 +5,7 @@ import { SAFE } from "../config/video";
 import { EASE } from "../motion/anim";
 
 /** Mots mis en valeur dans les sous-titres (montants, marque, mots-clés). */
-const HIGHLIGHT = new RegExp(`([0-9][0-9${NNBSP}${NBSP} ]*FCFA|VOBI|STOP|rue|consulter|comparer|vérifier)`, "gi");
+const HIGHLIGHT = new RegExp(`([0-9][0-9${NNBSP}${NBSP} ]*FCFA|VOBI|STOP|rue|consulter|comparer|vérifier|Zéro temps perdu|Zéro dépense inutile|déplacements inutiles)`, "gi");
 
 /**
  * Sous-titre incrusté — bandeau « glass » de la charte, 56 px SemiBold,

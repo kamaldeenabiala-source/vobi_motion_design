@@ -61,7 +61,7 @@ export const VO_LINES: VoLine[] = [
   {
     id: "vo02",
     scene: "S2-Depenses",
-    at: 0.2,
+    at: 1.8,
     text: "Mais voilà, tu as déjà dépensé 10 000 FCFA entre les démarcheurs, les frais de transport pour les visites et les démarches…",
     subs: [
       "Mais voilà, tu as déjà dépensé",
@@ -126,7 +126,7 @@ export const VO_LINES: VoLine[] = [
   {
     id: "vo09",
     scene: "S6-Demo",
-    at: 12.2,
+    at: 13.2,
     text: "Avec VOBI, tu peux consulter les logements, comparer les offres et même vérifier certains détails avant de te déplacer pour une visite.",
     subs: [
       "Avec VOBI, tu peux",

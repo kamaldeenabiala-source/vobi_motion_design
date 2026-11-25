@@ -1,0 +1,62 @@
+{
+  "vo01": {
+    "fileSec": 2.196,
+    "speechStartSec": 0.15,
+    "speechEndSec": 1.63
+  },
+  "vo02": {
+    "fileSec": 8.434,
+    "speechStartSec": 0.13,
+    "speechEndSec": 7.88
+  },
+  "vo03": {
+    "fileSec": 4.954,
+    "speechStartSec": 0.09,
+    "speechEndSec": 4.38
+  },
+  "vo04": {
+    "fileSec": 9.749,
+    "speechStartSec": 0.09,
+    "speechEndSec": 9.2
+  },
+  "vo05": {
+    "fileSec": 5.62,
+    "speechStartSec": 0.13,
+    "speechEndSec": 5.08
+  },
+  "vo06": {
+    "fileSec": 9.699,
+    "speechStartSec": 0.08,
+    "speechEndSec": 9.14
+  },
+  "vo07": {
+    "fileSec": 6.912,
+    "speechStartSec": 0.08,
+    "speechEndSec": 6.35
+  },
+  "vo08": {
+    "fileSec": 5.055,
+    "speechStartSec": 0.11,
+    "speechEndSec": 4.49
+  },
+  "vo09": {
+    "fileSec": 7.537,
+    "speechStartSec": 0.13,
+    "speechEndSec": 6.98
+  },
+  "vo10": {
+    "fileSec": 4.596,
+    "speechStartSec": 0.08,
+    "speechEndSec": 4.05
+  },
+  "vo11": {
+    "fileSec": 9.531,
+    "speechStartSec": 0.09,
+    "speechEndSec": 8.97
+  },
+  "vo12": {
+    "fileSec": 3.135,
+    "speechStartSec": 0.08,
+    "speechEndSec": 2.55
+  }
+}

@@ -1,39 +1,64 @@
 import React from "react";
 import { Audio } from "@remotion/media";
 import { AbsoluteFill, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { VO_LINES, type SceneId } from "../config/timeline";
+import { VO_LINES } from "../config/timeline";
 import voTimings from "./vo-timings.generated.json";
 import { Subtitle } from "../captions/Subtitles";
 
+type VoTimingEntry = { fileSec: number; speechStartSec: number; speechEndSec: number };
+
+export type GenericVoLine = {
+  id: string;
+  scene: string;
+  at: number;
+  text: string;
+  subs: string[];
+};
+
 /**
- * Voix off + sous-titres d'une scène. Les répliques appartiennent au script 5
- * (src/config/timeline.ts). Les sous-titres sont découpés en segments et
- * répartis sur la durée réelle de parole mesurée dans chaque fichier.
+ * Voix off + sous-titres d'une scène. Par défaut calé sur le script 5
+ * (src/config/timeline.ts), mais paramétrable pour tout autre script.
  */
-export const VoiceOver: React.FC<{ scene: SceneId; subtitles?: boolean; subtitleY?: number; dark?: boolean }> = ({
+export const VoiceOver: React.FC<{
+  scene: string;
+  subtitles?: boolean;
+  subtitleY?: number;
+  dark?: boolean;
+  lines?: GenericVoLine[];
+  timings?: Record<string, VoTimingEntry>;
+  voDir?: string;
+}> = ({
   scene,
   subtitles = true,
   subtitleY,
   dark = false,
+  lines: allLines = VO_LINES,
+  timings = voTimings,
+  voDir = "audio/vo",
 }) => {
   const { fps } = useVideoConfig();
-  const lines = VO_LINES.filter((l) => l.scene === scene);
+  const lines = allLines.filter((l) => l.scene === scene);
   return (
     <>
       {lines.map((l) => (
-        <Audio key={l.id} name={`Voix off ${l.id}`} src={staticFile(`audio/vo/${l.id}.wav`)} from={Math.round(l.at * fps)} volume={1} />
+        <Audio key={l.id} name={`Voix off ${l.id}`} src={staticFile(`${voDir}/${l.id}.wav`)} from={Math.round(l.at * fps)} volume={1} />
       ))}
-      {subtitles ? <SubtitleTrack scene={scene} y={subtitleY} dark={dark} /> : null}
+      {subtitles ? <SubtitleTrack lines={lines} timings={timings} y={subtitleY} dark={dark} /> : null}
     </>
   );
 };
 
-const SubtitleTrack: React.FC<{ scene: SceneId; y?: number; dark: boolean }> = ({ scene, y, dark }) => {
+const SubtitleTrack: React.FC<{
+  lines: GenericVoLine[];
+  timings: Record<string, VoTimingEntry>;
+  y?: number;
+  dark: boolean;
+}> = ({ lines, timings, y, dark }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const lines = VO_LINES.filter((l) => l.scene === scene);
   for (const l of lines) {
-    const t = voTimings[l.id];
+    const t = timings[l.id];
+    if (!t) continue;
     const start = Math.round((l.at + t.speechStartSec) * fps);
     const end = Math.round((l.at + t.speechEndSec) * fps);
     if (frame < start - 2 || frame > end + 10) continue;

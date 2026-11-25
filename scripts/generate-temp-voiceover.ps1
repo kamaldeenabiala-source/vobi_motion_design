@@ -1,4 +1,4 @@
-# Génère une voix off PROVISOIRE (synthèse vocale Windows, voix "Paul" fr-FR)
+﻿# Génère une voix off PROVISOIRE (synthèse vocale Windows, voix "Paul" fr-FR)
 # pour caler le rythme de l'animatique. À remplacer par la voix du comédien.
 # Usage : powershell -ExecutionPolicy Bypass -File scripts/generate-temp-voiceover.ps1
 

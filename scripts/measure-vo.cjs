@@ -2,7 +2,8 @@
 // et écrit src/audio/vo-timings.generated.json (utilisé pour caler la timeline).
 const fs = require('fs');
 const path = require('path');
-const dir = path.join(__dirname, '..', 'public', 'audio', 'vo');
+const dir = path.resolve(__dirname, '..', process.argv[2] || path.join('public', 'audio', 'vo'));
+const outFile = path.resolve(__dirname, '..', process.argv[3] || path.join('src', 'audio', 'vo-timings.generated.json'));
 const out = {};
 for (const f of fs.readdirSync(dir).filter((x) => x.endsWith('.wav')).sort()) {
   const b = fs.readFileSync(path.join(dir, f));
@@ -22,6 +23,6 @@ for (const f of fs.readdirSync(dir).filter((x) => x.endsWith('.wav')).sort()) {
   }
   out[f.replace('.wav', '')] = { fileSec: +(n / sr).toFixed(3), speechStartSec: +(first / sr).toFixed(3), speechEndSec: +(last / sr).toFixed(3) };
 }
-fs.mkdirSync(path.join(__dirname, '..', 'src', 'audio'), { recursive: true });
-fs.writeFileSync(path.join(__dirname, '..', 'src', 'audio', 'vo-timings.generated.json'), JSON.stringify(out, null, 2));
+fs.mkdirSync(path.dirname(outFile), { recursive: true });
+fs.writeFileSync(outFile, JSON.stringify(out, null, 2));
 console.log(out);

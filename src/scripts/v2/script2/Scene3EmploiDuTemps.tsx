@@ -1,0 +1,147 @@
+import React from "react";
+import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { Camera, FilmFinish } from "../../../motion/Camera";
+import { CityAvenueSet } from "../../../sets/CityAvenueSet";
+import { CharacterG } from "../../../characters/Character";
+import { DEMARCHEUR, KOFFI } from "../../../characters/bible";
+import { EXPRESSIONS, mixFace } from "../../../characters/expressions";
+import { LIMBS, dynamicPose, walkCycle } from "../../../characters/poses";
+import { EASE, blink, prog } from "../../../motion/anim";
+import { FONT } from "../../../theme/fonts";
+import { BRAND } from "../../../config/brand";
+import { VoiceOver } from "./VoiceOver";
+import { Sfx } from "../../../audio/Sfx";
+
+/**
+ * SCÈNE 3 V2 — Heures de travail & jours de repos sacrifiés sans résultat (13,5 s / 405 frames)
+ */
+const TimeBadge: React.FC<{
+  title: string;
+  sub: string;
+  x: number;
+  y: number;
+  at: number;
+  frame: number;
+  fps: number;
+}> = ({ title, sub, x, y, at, frame, fps }) => {
+  if (frame < at) return null;
+  const k = spring({ frame: frame - at, fps, config: { damping: 12, stiffness: 160 } });
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: x,
+        top: y,
+        translate: "-50% -50%",
+        scale: String(k),
+        padding: "16px 28px",
+        borderRadius: 24,
+        background: "rgba(15,23,42,0.9)",
+        border: `3px solid ${BRAND.gold}`,
+        color: "#FFFFFF",
+        textAlign: "center",
+        boxShadow: "0 20px 44px -14px rgba(0,0,0,0.45)",
+      }}
+    >
+      <div style={{ fontFamily: FONT, fontWeight: 900, fontSize: 32, color: BRAND.gold }}>{title}</div>
+      <div style={{ fontFamily: FONT, fontWeight: 700, fontSize: 24, marginTop: 2 }}>{sub}</div>
+    </div>
+  );
+};
+
+export const Scene3EmploiDuTemps: React.FC<{ style?: React.CSSProperties }> = ({ style }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  const RESULT_AT = 305;
+  const walk = walkCycle(frame, 0.42);
+  const fatigue = prog(frame, 150, 320);
+  const face = mixFace(
+    mixFace(EXPRESSIONS.agace, EXPRESSIONS.epuise, fatigue),
+    EXPRESSIONS.choque,
+    prog(frame, RESULT_AT, RESULT_AT + 14),
+  );
+
+  const demX = interpolate(frame, [0, 42, 145, 185], [1160, 770, 770, 1220], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: EASE.inOut,
+  });
+
+  const dyn = dynamicPose(frame, { speaking: frame >= 15 && frame < RESULT_AT, energy: 1.15, gesture: "frustrated" });
+  const resultK = frame >= RESULT_AT ? spring({ frame: frame - RESULT_AT, fps, config: { damping: 11, stiffness: 170 } }) : 0;
+
+  return (
+    <AbsoluteFill style={style}>
+      <Camera zoom={1.08} focusX={540} focusY={1080}>
+        <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: "absolute", inset: 0 }}>
+          <CityAvenueSet pan={frame * 2.2} sway={Math.sin(frame / 20) * 2} />
+          {frame < 190 ? (
+            <CharacterG
+              spec={DEMARCHEUR}
+              x={demX}
+              y={1630}
+              scale={1.24}
+              pose={{
+                ...dynamicPose(frame + 15, { speaking: true, gesture: "explain" }),
+                face: EXPRESSIONS.sourireCommercial,
+                legL: LIMBS.legStand,
+                legR: LIMBS.legStand,
+                armR: LIMBS.armPhoneR,
+                handR: "phone",
+                headTurn: -0.35,
+                blink: blink(frame, 3.2),
+              }}
+            />
+          ) : null}
+
+          <CharacterG
+            spec={KOFFI}
+            x={420}
+            y={1645}
+            scale={1.26}
+            pose={{
+              ...dyn,
+              face,
+              legL: frame < RESULT_AT ? walk.legL! : LIMBS.legStand,
+              legR: frame < RESULT_AT ? walk.legR! : LIMBS.legStand,
+              bob: frame < RESULT_AT ? walk.bob : dyn.bob,
+              handR: frame < 180 ? "phone" : "open",
+              blink: blink(frame, 2.2),
+              sweat: fatigue,
+            }}
+          />
+        </svg>
+
+        <TimeBadge title="HEURES DE TRAVAIL" sub="Prises pour visiter" x={340} y={480} at={95} frame={frame} fps={fps} />
+        <TimeBadge title="JOURS DE REPOS" sub="Sacrifiés sans succès" x={720} y={660} at={195} frame={frame} fps={fps} />
+
+        {resultK > 0 ? (
+          <div
+            style={{
+              position: "absolute",
+              left: 540,
+              top: 460,
+              translate: "-50% -50%",
+              scale: String(resultK),
+              padding: "24px 44px",
+              borderRadius: 28,
+              background: "#FFFFFF",
+              border: `5px solid ${BRAND.debit}`,
+              boxShadow: "0 24px 60px -18px rgba(225,29,72,0.45)",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontFamily: FONT, fontWeight: 900, fontSize: 60, color: BRAND.debit }}>0 RÉSULTAT</div>
+          </div>
+        ) : null}
+      </Camera>
+
+      <VoiceOver scene="S3-EmploiDuTemps" />
+      <Sfx name="pop" at={95} volume={0.45} />
+      <Sfx name="pop" at={195} volume={0.45} />
+      <Sfx name="impact" at={RESULT_AT} volume={0.65} />
+      <FilmFinish />
+    </AbsoluteFill>
+  );
+};

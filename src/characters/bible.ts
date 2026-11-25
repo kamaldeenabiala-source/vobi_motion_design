@@ -22,7 +22,7 @@ export type Outfit = {
 };
 
 export type CharacterSpec = {
-  id: "senan" | "demarcheur" | "zem" | "vendeuse";
+  id: "senan" | "demarcheur" | "zem" | "vendeuse" | "aicha" | "koffi";
   label: string;
   skin: string;
   skinShade: string;
@@ -169,4 +169,81 @@ export const VENDEUSE: CharacterSpec = {
   },
 };
 
-export const CAST = { senan: SENAN, demarcheur: DEMARCHEUR, zem: ZEM, vendeuse: VENDEUSE } as const;
+export const AICHA: CharacterSpec = {
+  id: "aicha",
+  label: "Aïcha — 28 ans, jeune active dynamique",
+  skin: "#6A3E26",
+  skinShade: "#4F2D1B",
+  hair: "headwrap",
+  wrapColor: BRAND.primary,
+  hairColor: DECOR.hair,
+  beard: "none",
+  shoulderHalf: 60,
+  waistHalf: 50,
+  belly: 0,
+  headRx: 60,
+  headRy: 70,
+  legLength: 242,
+  accessories: ["watch"],
+  outfit: {
+    top: "#F2C14E",
+    topShade: "#D9A434",
+    topPattern: "wax",
+    patternColor: "#E8743B",
+    sleeves: "short",
+    pants: "#1E293B",
+    pantsShade: "#0F172A",
+    shoes: DECOR.sandal,
+    collar: false,
+    skirt: true,
+  },
+};
+
+export const KOFFI: CharacterSpec = {
+  id: "koffi",
+  label: "Koffi — 32 ans, jeune cadre souriant",
+  skin: "#724329",
+  skinShade: "#56311D",
+  hair: "shortRound",
+  hairColor: DECOR.hair,
+  beard: "goatee",
+  shoulderHalf: 68,
+  waistHalf: 54,
+  belly: 4,
+  headRx: 64,
+  headRy: 74,
+  legLength: 248,
+  accessories: ["watch"],
+  outfit: {
+    top: "#2563EB",
+    topShade: "#1D4ED8",
+    topPattern: "stripes",
+    patternColor: "#60A5FA",
+    sleeves: "long",
+    pants: "#E2D5B8",
+    pantsShade: "#C8B894",
+    shoes: "#2A1E16",
+    collar: true,
+  },
+  outfits: {
+    pyjama: {
+      top: "#0B6B4F",
+      topShade: "#08523C",
+      topPattern: "none",
+      sleeves: "long",
+      pants: "#1E293B",
+      pantsShade: "#0F172A",
+      shoes: DECOR.sandal,
+      collar: true,
+    },
+  },
+};
+
+export const CAST = {
+  senan: SENAN,
+  demarcheur: DEMARCHEUR,
+  zem: ZEM,
+  vendeuse: VENDEUSE,
+  aicha: AICHA,
+  koffi: KOFFI,
+} as const;

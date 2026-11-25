@@ -40,7 +40,7 @@ export const MusicBed: React.FC = () => (
       name="Musique tension (1)"
       src={staticFile("audio/music/tension.wav")}
       durationInFrames={TENSION_CUT + 6}
-      volume={(f) => 0.42 * duckAt(f, 0.45) * interpolate(f, [0, 10, TENSION_CUT, TENSION_CUT + 6], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })}
+      volume={(f) => 0.3 * duckAt(f, 0.28) * interpolate(f, [0, 10, TENSION_CUT, TENSION_CUT + 6], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })}
     />
     <Audio
       name="Musique tension (reprise)"
@@ -48,14 +48,14 @@ export const MusicBed: React.FC = () => (
       from={TENSION_RESUME}
       trimBefore={Math.round(8 * fps)}
       durationInFrames={FREEZE - TENSION_RESUME + 2}
-      volume={(f) => 0.4 * duckAt(f + TENSION_RESUME, 0.45) * interpolate(f, [0, 20], [0.3, 1], { extrapolateRight: "clamp" })}
+      volume={(f) => 0.3 * duckAt(f + TENSION_RESUME, 0.28) * interpolate(f, [0, 20], [0.3, 1], { extrapolateRight: "clamp" })}
     />
     <Audio
       name="Musique positive"
       src={staticFile("audio/music/positive.wav")}
       from={POSITIVE_IN}
       durationInFrames={END - POSITIVE_IN}
-      volume={(f) => 0.42 * duckAt(f + POSITIVE_IN, 0.42) * interpolate(f, [0, 8, END - POSITIVE_IN - 20, END - POSITIVE_IN], [0, 1, 1, 0.6], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })}
+      volume={(f) => 0.3 * duckAt(f + POSITIVE_IN, 0.28) * interpolate(f, [0, 8, END - POSITIVE_IN - 20, END - POSITIVE_IN], [0, 1, 1, 0.6], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })}
     />
   </>
 );
